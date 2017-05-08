@@ -14,18 +14,19 @@ sys.setdefaultencoding('utf-8')
 
 
 def cb(data):
-    if find_words1 in data.data:
+    if find_words[0] in data.data:
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose = marker[0]
         move(goal)
-    elif find_words2 in data.data:
+    elif find_words[1] in data.data:
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose = marker[1]
         move(goal)
+
 
 def move(goal):
     move_base.send_goal(goal)
@@ -43,11 +44,11 @@ def move(goal):
 if __name__ == '__main__':
     try:
         marker = list()
-        find_words1 = u"饮水机"
-        find_words2 = u"原点"
+        find_words = list()
+        find_words.append(u'饮水机')
+        find_words.append(u'原点')
         rospy.init_node("STC",anonymous=True)
         rospy.Subscriber("xfspeech", String, cb)
-        #r = rospy.Rate(20)
 
         marker.append(Pose(Point(3.284, 5.337, 0.0), \
             Quaternion(0.0, 0.0, -0.245, 0.970)))
@@ -64,7 +65,6 @@ if __name__ == '__main__':
         rospy.loginfo("Connected to move_base server")
         rospy.loginfo("Start nav test")
 
-        #r.sleep()
         rospy.spin()
     except rospy.ROSInterruptException:
         rospy.loginfo("InterruptException.")
