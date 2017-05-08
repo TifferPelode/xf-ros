@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import rospy
 import actionlib
@@ -6,6 +7,11 @@ from actionlib_msgs.msg import *
 from geometry_msgs.msg import Twist, Pose, Point, Quaternion
 from std_msgs.msg import String
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 def cb(data):
     if find_words1 in data.data:
@@ -37,8 +43,8 @@ def move(goal):
 if __name__ == '__main__':
     try:
         marker = list()
-        find_words1 = "1"
-        find_words2 = "2"
+        find_words1 = u"饮水机"
+        find_words2 = u"原点"
         rospy.init_node("STC",anonymous=True)
         rospy.Subscriber("xfspeech", String, cb)
         #r = rospy.Rate(20)
